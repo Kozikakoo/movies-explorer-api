@@ -17,7 +17,6 @@ const userSchema = new mongoose.Schema({
     },
   },
   password: {
-    //хеш пароля?
     type: String,
     required: true,
     select: false,
@@ -26,6 +25,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     minlength: 2,
     maxlength: 30,
+    required: true,
   },
 });
 

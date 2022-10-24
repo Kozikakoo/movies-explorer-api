@@ -1,9 +1,10 @@
 const User = require('../models/user');
+const bcrypt = require('bcryptjs');
 const NotFoundError = require('../errors/not-found-err');
 const IncorrectDataError = require('../errors/incorrect-data-err');
 const ConflictError = require('../errors/conflict-err');
 
-const SALT_ROUNDS = process.env;
+const SALT_ROUNDS = 10
 
 module.exports.createUser = (req, res, next) => {
   const {

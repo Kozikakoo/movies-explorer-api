@@ -3,14 +3,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
-const { celebrate, Joi } = require('celebrate');
-const { createUser } = require('./controllers/users');
-const { login } = require('./controllers/login');
-const auth = require('./middlewares/auth');
-const NotFoundError = require('./errors/not-found-err');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require("cors");
-
 
 const app = express();
 
@@ -43,28 +37,7 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.post('/signin', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().pattern(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
-    password: Joi.string().required(),
-  }),
-}), login);
-app.post('/signup', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().pattern(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
-    password: Joi.string().required(),
-    name: Joi.string().min(2).max(30).default('Жак-Ив Кусто'),
-  }),
-}), createUser);
-
-app.use(auth);
-
-app.use('/', require('./routes/users'));
-app.use('/', require('./routes/cards'));
-
-app.use('*', () => {
-  throw new NotFoundError('Страница не найдена');
-});
+app.use('/', require('./routes/index'))
 
 app.use(errorLogger);
 
