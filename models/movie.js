@@ -28,38 +28,41 @@ const movieSchema = new mongoose.Schema({
     validate: {
       validator: (v) => isURL(v),
       message: 'Неправильный формат ссылки',
-    }},
-    trailerLink: {
-      type: String,
-      required: true,
-      validate: {
-        validator: (v) => isURL(v),
-        message: 'Неправильный формат ссылки',
-      }},
-      owner: {
-        ref: 'user',
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-      },
-      thumbnail: {
-        type: String,
-        required: true,
-        validate: {
-          validator: (v) => isURL(v),
-          message: 'Неправильный формат ссылки',
-        }},
-        movieId: {
-          type: mongoose.Schema.Types.ObjectId,
-          required: true,
-        },
-        nameRU: {
-          type: String,
-          required: true,
-        },
-        nameEN: {
-          type: String,
-          required: true,
-        },
-      });
+    },
+  },
+  trailerLink: {
+    type: String,
+    required: true,
+    validate: {
+      validator: (v) => isURL(v),
+      message: 'Неправильный формат ссылки',
+    },
+  },
+  owner: {
+    ref: 'user',
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
+  thumbnail: {
+    type: String,
+    required: true,
+    validate: {
+      validator: (v) => isURL(v),
+      message: 'Неправильный формат ссылки',
+    },
+  },
+  movieId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
+  nameRU: {
+    type: String,
+    required: true,
+  },
+  nameEN: {
+    type: String,
+    required: true,
+  },
+});
 
 module.exports = mongoose.model('movie', movieSchema);

@@ -3,14 +3,15 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
-const {handleError} = require('./middlewares/handleError')
+const cors = require('cors');
+const { handleError } = require('./middlewares/handleError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const cors = require("cors");
 const {
   PORT,
   MONGO_SERVER,
   NODE_ENV,
-  MONGO_SERVER_DEV } = require('./utils/constants')
+  MONGO_SERVER_DEV,
+} = require('./utils/constants');
 
 const addressDB = NODE_ENV === 'production' ? MONGO_SERVER : MONGO_SERVER_DEV;
 
@@ -31,10 +32,10 @@ app.use(requestLogger);
 app.use(cors({
   origin: [
     'http://localhost:3000',
-    //'http://mesto.test.project.nomoredomains.icu',
-    //'https://mesto.test.project.nomoredomains.icu'
+    // 'http://mesto.test.project.nomoredomains.icu',
+    // 'https://mesto.test.project.nomoredomains.icu'
   ],
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE' ],
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 }));
@@ -45,7 +46,7 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.use('/', require('./routes/index'))
+app.use('/', require('./routes/index'));
 
 app.use(errorLogger);
 

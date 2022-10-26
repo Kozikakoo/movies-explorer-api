@@ -1,9 +1,9 @@
-const User = require('../models/user');
 const bcrypt = require('bcryptjs');
+const User = require('../models/user');
 const NotFoundError = require('../errors/not-found-err');
 const IncorrectDataError = require('../errors/incorrect-data-err');
 const ConflictError = require('../errors/conflict-err');
-const {SALT_ROUNDS} = require('../utils/constants')
+const { SALT_ROUNDS } = require('../utils/constants');
 
 module.exports.createUser = (req, res, next) => {
   const {
@@ -26,9 +26,7 @@ module.exports.createUser = (req, res, next) => {
         next(new ConflictError('Такой пользователь уже существует'));
       } else if (err.name === 'ValidationError') {
         next(new IncorrectDataError('Некорректные данные'));
-      } else
-        console.log(err.message)
-        next(err);
+      } else next(err);
     });
 };
 
@@ -70,6 +68,3 @@ module.exports.updateUser = (req, res, next) => {
       } else next(err);
     });
 };
-
-
-
