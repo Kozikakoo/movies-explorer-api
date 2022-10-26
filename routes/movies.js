@@ -5,7 +5,7 @@ const {
 const {movieDeleteValidation, movieCreateValidation} = require("../validations/movie");
 
 router.get('/movies', getMovies);
-router.delete('/movies/_id', movieDeleteValidation , deleteMovie);
+router.delete('/movies/:movieId', movieDeleteValidation , deleteMovie);
 router.post('/movies', movieCreateValidation, createMovie);
 
 module.exports = router;

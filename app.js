@@ -3,15 +3,23 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
+const {handleError} = require('./middlewares/handleError')
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require("cors");
+const {
+  PORT,
+  MONGO_SERVER,
+  NODE_ENV,
+  MONGO_SERVER_DEV } = require('./utils/constants')
+
+const addressDB = NODE_ENV === 'production' ? MONGO_SERVER : MONGO_SERVER_DEV;
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect('mongodb://127.0.0.1:27017/bitfilmsdb', {
+mongoose.connect(addressDB, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
@@ -43,18 +51,7 @@ app.use(errorLogger);
 
 app.use(errors());
 
-app.use((err, req, res, next) => {
-  const { statusCode = 500, message } = err;
+app.use(handleError);
 
-  res
-    .status(statusCode)
-    .send({
-      message: statusCode === 500
-        ? 'На сервере произошла ошибка'
-        : message,
-    });
-  next();
-});
-
-app.listen(3000, () => {
+app.listen(PORT, () => {
 });

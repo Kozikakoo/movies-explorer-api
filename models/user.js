@@ -5,7 +5,6 @@ const IncorrectDataError = require('../errors/incorrect-data-err');
 const UnauthorizedError = require('../errors/unauthorized-err');
 
 const userSchema = new mongoose.Schema({
-
   email: {
     type: String,
     minlength: 2,

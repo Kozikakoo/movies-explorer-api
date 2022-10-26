@@ -25,12 +25,12 @@ module.exports.createMovie = (req, res, next) => {
 };
 
 module.exports.deleteMovie = (req, res, next) => {
-  Movie.findById({ _id: req.movieId })
+  Movie.findById({_id: req.params.movieId})
     .then((movie) => {
       if (!movie) { throw new NotFoundError('Карточка не найдена'); } else if (!movie.owner.equals(req.user._id)) {
         throw new ForbiddenError('Нельзя удалить чужую карточку');
       }
-      Movie.findByIdAndDelete({ _id: req.movieId })
+      Movie.findByIdAndDelete({_id: req.params.movieId})
         .then(() => {
           res.send(movie);
         })
