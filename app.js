@@ -8,10 +8,11 @@ const { handleError } = require('./middlewares/handleError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const {
   PORT,
-  MONGO_SERVER,
   NODE_ENV,
   MONGO_SERVER_DEV,
 } = require('./utils/constants');
+
+const { MONGO_SERVER } = process.env;
 
 const addressDB = NODE_ENV === 'production' ? MONGO_SERVER : MONGO_SERVER_DEV;
 
@@ -46,7 +47,7 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.use('/', require('./routes/index'));
+app.use('/', require('./routes'));
 
 app.use(errorLogger);
 

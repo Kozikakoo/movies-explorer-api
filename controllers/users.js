@@ -63,7 +63,9 @@ module.exports.updateUser = (req, res, next) => {
       res.send(user);
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.code === 11000) {
+        next(new ConflictError('Такой пользователь уже существует'));
+      } else if (err.name === 'ValidationError') {
         next(new IncorrectDataError('Некорректные данные'));
       } else next(err);
     });

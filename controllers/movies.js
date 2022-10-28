@@ -38,8 +38,8 @@ module.exports.createMovie = (req, res, next) => {
     movieId,
     owner: { _id: req.user._id },
   })
-    .then((user) => {
-      res.send(user);
+    .then((movie) => {
+      res.send(movie);
     })
 
     .catch((err) => {
