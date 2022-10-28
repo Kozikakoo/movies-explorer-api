@@ -4,8 +4,10 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const cors = require('cors');
+const helmet = require('helmet');
 const { handleError } = require('./middlewares/handleError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { limiter } = require('./utils/limiter');
 const {
   PORT,
   NODE_ENV,
@@ -27,6 +29,9 @@ mongoose.connect(addressDB, {
   useFindAndModify: false,
   useUnifiedTopology: true,
 });
+
+app.use(limiter);
+app.use(helmet());
 
 app.use(requestLogger);
 
