@@ -2,7 +2,7 @@ const { celebrate, Joi } = require('celebrate');
 
 module.exports.movieDeleteValidation = celebrate({
   params: Joi.object().keys({
-    movieId: Joi.number().required(),
+    id: Joi.string().required().hex().length(24),
   }),
 });
 
